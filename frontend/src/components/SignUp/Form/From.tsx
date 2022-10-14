@@ -1,6 +1,8 @@
 import React, { FormEvent, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux/es/hooks/useDispatch";
 
+import { setError } from "../../../redux store";
 import styles from "./Form.module.css";
 
 const Form: React.FC<{
@@ -17,16 +19,19 @@ const Form: React.FC<{
     props.setProgress({ stepOne: false, stepTwo: false });
   }, []);
 
+  const dispatch = useDispatch()
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    fetch("http://localhost:8888/signup")
-    // , {
-    //   method: "POST",
-    //   body: JSON.stringify({name: nameRef, email: emailRef}),
-    // }).then(()=>{
-    //   navigate("/signup/terms");
-    // });
+    const result = await fetch("http://localhost:8888/signup")
+    const res = await result.json()
+
+    if(res.message === "done"){
+      navigate("/signup/terms")
+    }else{
+      dispatch(setError(res.message as unknown as string))
+    }
   };
 
   const nameRef = useRef<HTMLInputElement>(null);
