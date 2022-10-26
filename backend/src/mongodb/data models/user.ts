@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import uniqueValidator from "mongoose-unique-validator"
+import uniqueValidator from "mongoose-unique-validator";
 
 const userSchema = new Schema({
   name: {
@@ -17,11 +17,10 @@ const userSchema = new Schema({
     match:
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
   },
-  password: { type: String, reqired: true, minLength: 6, trim: true },
 });
 
-userSchema.plugin(uniqueValidator)
+userSchema.plugin(uniqueValidator);
 
-const userModel = model("User", userSchema);
+const userModel = model("New", userSchema);
 
 export default userModel;

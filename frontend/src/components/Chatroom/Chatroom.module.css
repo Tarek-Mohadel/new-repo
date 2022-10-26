@@ -1,0 +1,23 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chatbox {
+  width: 500px;
+  height: 500px;
+  background-color: wheat;
+  margin-top: 30px;
+  border: 5px solid black;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  border: 3px solid green;
+  list-style-type: none;
+}

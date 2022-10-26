@@ -4,24 +4,26 @@ import userModel from "./data models/user";
 
 mongoose.connect(
   "mongodb://localhost:27017/testdb"
-).then(() => {
-  console.log("connected to database sucessfully!");
-})
-.catch((err) => {
-  console.log(`connection to database failed: ${err}`);
+  ).then(() => {
+    console.log("connected to database");
+  }).catch((err) => {
+    console.log(err);
 });
 
-const addUser = async (name: string, email: string, password: string) => {
+export const addUser = async (name: string, email: string) => {
   const newUser = new userModel({
     name: name,
     email: email,
-    password: password,
   });
 
-  const result = await newUser.save()
+  const result = await newUser.save();
 
   return result;
 };
 
+export const findUser = async (email: string) => {
+  const result = await userModel.findOne({email: email})
+  return result
+}
 
-export default addUser
+

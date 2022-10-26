@@ -2,7 +2,6 @@ import React, { FormEvent, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 
-import { setError } from "../../../redux store";
 import styles from "./Form.module.css";
 
 const Form: React.FC<{
@@ -14,28 +13,38 @@ const Form: React.FC<{
   >;
 }> = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     props.setProgress({ stepOne: false, stepTwo: false });
   }, []);
 
-  const dispatch = useDispatch()
-
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const result = await fetch("http://localhost:8888/signup")
-    const res = await result.json()
+    // console.log(nameRef.current?.value, emailRef.current?.value)
 
-    if(res.message === "done"){
-      navigate("/signup/terms")
-    }else{
-      dispatch(setError(res.message as unknown as string))
-    }
+    fetch("http://localhost:8888/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: nameRef.current?.value,
+        email: emailRef.current?.value,
+      }),
+    }).then(async (res)=>{
+      if(res.status === 400){
+        throw new Error("cannot signup!")
+      }else{
+        navigate("/signup/terms")
+      }
+
+    }).catch((err)=>{
+      console.log(err)
+    });
   };
-
-  const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className={styles.main}>
