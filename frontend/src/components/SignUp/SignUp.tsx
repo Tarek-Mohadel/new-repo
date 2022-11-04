@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import ProgressBar from "./ProgressBar/ProgressBar";
-import Form from "./Form/From";
-import Terms from "./TermsAndConditions/Terms";
-import Congrats from "./Congrats/Congrats";
+import ProgressBar from "./utils/TermsAndConditions/ProgressBar/ProgressBar";
+import Form from "./utils/Form/From";
+import Terms from "./utils/TermsAndConditions/Terms";
+import Congrats from "./utils/Congrats/Congrats";
 
 import styles from "./SignUp.module.css";
 

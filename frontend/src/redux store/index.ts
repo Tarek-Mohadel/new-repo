@@ -1,22 +1,12 @@
-import { configureStore, createReducer, createAction } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 
-export const setError = createAction("error/set", (message: string)=>{
-  return {
-    payload: message
-  }
-});
-
-const initialState = "";
-
-const errorReducer = createReducer(initialState, (builder) => {
-  builder.addCase(setError, (state, action) => {
-    return action.payload
-  });
-});
+import errorReducer from "./reducers/error";
+import chatReducer from "./reducers/chat";
 
 const store = configureStore({
   reducer: {
     error: errorReducer,
+    chat: chatReducer
   },
 });
 

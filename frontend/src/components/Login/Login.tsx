@@ -1,25 +1,31 @@
 import { useRef } from "react";
-import test from "../../socket.io/socket";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./Login.module.css";
 
 const Login = () => {
-  const nameRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate()
+
   const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      const result = await fetch("http://localhost:8888/login", {
+      const result = await fetch("http://localhost:3001/login", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: nameRef.current!.value,
           email: emailRef.current!.value,
+          password: passwordRef.current!.value,
         }),
       });
-      console.log(await result.text())
+
+      if(result.status === 200){
+        navigate("/users")
+      }
+
     } catch (err) {
       console.log(err);
     }
@@ -30,11 +36,10 @@ const Login = () => {
       <div>
         <h1>Login</h1>
         <form onSubmit={submit}>
-          <input id="name" placeholder="name" ref={nameRef} />
           <input id="email" placeholder="email" ref={emailRef} />
+          <input id="password" placeholder="password" ref={passwordRef} />
           <button>Login</button>
         </form>
-        <button onClick={test}>test socket.io</button>
       </div>
     </div>
   );

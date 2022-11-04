@@ -1,0 +1,10 @@
+.chatmodal {
+  width: 500px;
+  height: 500px;
+  background-color: violet;
+  position: fixed;
+  bottom: 0;
+  right: 5%;
+  z-index: 10;
+}
+

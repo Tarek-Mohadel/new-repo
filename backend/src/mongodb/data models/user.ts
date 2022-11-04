@@ -6,7 +6,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     minLength: 6,
-    maxLength: 15,
+    maxLength: 30,
     trim: true,
   },
   email: {
@@ -17,10 +17,14 @@ const userSchema = new Schema({
     match:
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
   },
+  password: {
+    type: String,
+    required: true,
+  }
 });
 
 userSchema.plugin(uniqueValidator);
 
-const userModel = model("New", userSchema);
+const userModel = model("user", userSchema);
 
 export default userModel;

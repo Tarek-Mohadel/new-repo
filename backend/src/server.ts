@@ -1,60 +1,51 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
-import { addUser, findUser } from "./mongodb/mongoose";
-import userModel from "./mongodb/data models/user";
-import ffff from "./socket.io/socket";
+import dotenv from "dotenv";
+dotenv.config();
+import { v4 as uuidv4 } from "uuid";
+
+import signupRoute from "./express routes/signupRoutes";
+import loginRoute from "./express routes/loginRoute";
+import usersRoute from "./express routes/usersRoute";
 
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
+/////////// socket.io ///////////
+io.on("connection", (socket) => {
+  console.log(`client connected with id: ${socket.id}`);
+
+  socket.on("sent-message", (arg) => {
+    console.log(arg);
+  });
+
+  socket.on("call", (user) => {
+    const room = uuidv4();
+    socket.join(room);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`client disconnected: ${socket.id}`);
+  });
+});
+
+/////////// express ///////////
 app.use(express.json());
 app.use(cors());
 
-ffff()
+app.use("/signup", signupRoute);
+app.use("/login", loginRoute);
+app.use("/users", usersRoute);
 
-// app.get("/signup", async (req: Request, res: Response) => {
-//   res.json({message: "filffmfd;fd,.f/feed"})
-//   // const result = await addUser(req.body.name, req.body.email, req.body.password)
-//   // res.send(result)
-// });
-
-app.post("/signup", async (req: Request, res: Response) => {
-  const { name, email } = req.body;
-
-  try {
-    const result = await addUser(name, email);
-    res.send(result);
-  } catch (err) {
-    console.log(err)
-    res.status(400).send("failed");
-  }
-});
-
-app.post("/login", async (req: Request, res: Response) => {
-  const email: string = req.body.email;
-
-  try {
-    const result = await findUser(email);
-
-    if(!result){
-      throw "user not found!"
-    }
-
-    const name = result!.name;
-
-    if (name === req.body.name) {
-      res.send("user logged in successfully");
-    } else {
-      res.send("wrong information!")
-    };
-
-  } catch (err) {
-    res.send(err)
-  }
-});
-
-app.listen(8888, () => {
+httpServer.listen(3001, () => {
   console.log("your server is running!");
 });
-
-

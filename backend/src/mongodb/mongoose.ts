@@ -10,10 +10,11 @@ mongoose.connect(
     console.log(err);
 });
 
-export const addUser = async (name: string, email: string) => {
+export const addUser = async (name: string, email: string, password: string) => {
   const newUser = new userModel({
     name: name,
     email: email,
+    password: password
   });
 
   const result = await newUser.save();

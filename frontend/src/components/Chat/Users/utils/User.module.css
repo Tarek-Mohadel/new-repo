@@ -1,0 +1,8 @@
+.main{
+  list-style: none;
+  text-align: center;
+  border: 2px solid black;
+  margin: 1px;
+  padding: 3px;
+  cursor: pointer;
+}
