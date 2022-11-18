@@ -2,8 +2,8 @@ import { io } from "socket.io-client";
 
 const socket = io("http://localhost:3001");
 
-const sendMessage = (message: string) => {
-  socket.emit("sent-message", message);
+export const sendMessage = (user: string, message: string) => {
+  socket.emit("send-message", user, message);
 };
 
-export default sendMessage;
+export default socket;

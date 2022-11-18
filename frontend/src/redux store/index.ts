@@ -6,7 +6,7 @@ import chatReducer from "./reducers/chat";
 const store = configureStore({
   reducer: {
     error: errorReducer,
-    chat: chatReducer
+    chat: chatReducer,
   },
 });
 

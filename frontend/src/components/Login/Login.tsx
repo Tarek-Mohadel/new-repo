@@ -23,6 +23,10 @@ const Login = () => {
       });
 
       if(result.status === 200){
+        const res = await result.json()
+        const token = res.data.token
+
+        localStorage.setItem("token", `${token}`)
         navigate("/users")
       }
 

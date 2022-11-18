@@ -1,0 +1,11 @@
+[
+  {
+    sender: string,
+    messages: [
+      {
+        time: date, 
+        message: string
+      }
+    ]
+  }
+]
